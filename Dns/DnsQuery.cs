@@ -47,23 +47,7 @@ namespace Dns
 
         private IDnsQueryAnswer ExtractAnswer(byte[] packetContent, ref int startOfAnswer)
         {
-            IDnsQueryAnswer answer = null;
-            var twoBytes = packetContent.Skip(startOfAnswer).Take(2);
-            var twoBytesAsBits = new BitArray(twoBytes.Reverse().ToArray());
-            if (twoBytesAsBits[14] && twoBytesAsBits[15])
-            {
-                // We have a "pointer"
-                var name = new DnsName(packetContent, twoBytes.Last());
-                var recordType = (DnsRecordType)BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 2).Take(2).Reverse().ToArray(), 0);
-                var recordClass = BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 4).Take(2).Reverse().ToArray(), 0);
-                var ttl = BitConverter.ToUInt32(packetContent.Skip(startOfAnswer + 6).Take(4).Reverse().ToArray(), 0);
-                var rDataLength = BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 10).Take(2).Reverse().ToArray(), 0);
-                var rData = packetContent.Skip(startOfAnswer + 12).Take(rDataLength).ToArray();
-
-                answer = new DnsQueryAnswerFactory().GetDnsQueryAnswer(name, recordType, recordClass, ttl, rDataLength, rData, packetContent);
-
-                startOfAnswer = startOfAnswer + 12 + rDataLength;
-            }
+            IDnsQueryAnswer answer = new DnsQueryAnswerFactory().GetDnsQueryAnswer(packetContent, ref startOfAnswer);
             return answer;
         }
 

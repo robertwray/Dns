@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DnsNameTests\Constructor.cs" />
+    <Compile Include="DnsQueryAnswerTests\Constructor.cs" />
     <Compile Include="ManualTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,9 +10,9 @@ namespace Dns
     public sealed class DnsQueryAnswerA : DnsQueryAnswer
     {
         public IPAddress IPAddress { get; set; }
-        public DnsQueryAnswerA(short recordDataLength, byte[] recordData)
+        public DnsQueryAnswerA(short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
-            IPAddress = new IPAddress(recordData);
+            IPAddress = new IPAddress(packetContent.Skip(recordDataOffset).Take(recordDataLength).ToArray());
         }
 
         public override string ToString()

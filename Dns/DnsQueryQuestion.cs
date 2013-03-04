@@ -19,6 +19,11 @@ namespace Dns
             RecordType = recordType;
         }
 
+        public DnsQueryQuestion(byte[] packetContent, int startingOffset)
+        {
+            throw new NotImplementedException();
+        }
+
         public DnsQueryQuestion(byte[] packetContent)
             : this()
         {

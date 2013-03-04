@@ -36,12 +36,17 @@ namespace Dns
             while (packetContent[i] != 0 && i < packetContent.Length - 1)
             {
                 var twoBytes = packetContent.Skip(i).Take(2);
+                
                 var twoBytesAsBits = new BitArray(twoBytes.Reverse().ToArray());
 
                 if (twoBytesAsBits[14] && twoBytesAsBits[15])
                 {
                     // We have a "pointer"
                     var name = new DnsName(packetContent, twoBytes.Last());
+                    if (host.Length != 0)
+                    {
+                        host.Append(".");
+                    }
                     host.Append(name);
                     break;
                 }
@@ -84,6 +89,10 @@ namespace Dns
                 {
                     // We have a "pointer"
                     var name = new DnsName(packetContent, twoBytes.Last());
+                    if (host.Length != 0)
+                    {
+                        host.Append(".");
+                    }
                     host.Append(name);
                     break;
                 }
