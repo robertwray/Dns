@@ -22,13 +22,17 @@ namespace Dns
         {
             return Host;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="packetContent"></param>
+        /// <param name="startingOffset">The starting offset of the name, the value of the length of the first name part</param>
         public DnsName(byte[] packetContent, int startingOffset)
             : this()
         {
             var host = new StringBuilder();
-            var i = startingOffset;
-            var numberOfCharacters = Convert.ToInt32(packetContent[0]);
+            var numberOfCharactersInCurrentNameSection = Convert.ToInt32(packetContent[startingOffset]);
+            var i = startingOffset + 1;
             while (packetContent[i] != 0 && i < packetContent.Length - 1)
             {
                 var twoBytes = packetContent.Skip(i).Take(2);
@@ -42,10 +46,10 @@ namespace Dns
                     break;
                 }
 
-                if (numberOfCharacters > 0)
+                if (numberOfCharactersInCurrentNameSection > 0)
                 {
                     host.Append(Convert.ToChar(packetContent[i]));
-                    numberOfCharacters--;
+                    numberOfCharactersInCurrentNameSection--;
                 }
                 else
                 {
@@ -56,7 +60,7 @@ namespace Dns
                     else
                     {
                         host.Append(".");
-                        numberOfCharacters = Convert.ToInt32(packetContent[i]);
+                        numberOfCharactersInCurrentNameSection = Convert.ToInt32(packetContent[i]);
                     }
                 }
                 i++;

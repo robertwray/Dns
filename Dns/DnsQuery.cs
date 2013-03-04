@@ -9,6 +9,7 @@ namespace Dns
 {
     public sealed class DnsQuery
     {
+        public byte[] PacketContent { get; private set; }
         public DnsQueryHeader Header { get; set; }
         public IEnumerable<DnsQueryQuestion> Questions { get; private set; }
         public IEnumerable<IDnsQueryAnswer> Answers { get; private set; }
@@ -20,6 +21,7 @@ namespace Dns
 
         public DnsQuery(byte[] packetContent)
         {
+            PacketContent = packetContent;
             var headerBytes = packetContent.Take(12).ToArray();
             Header = new DnsQueryHeader(headerBytes);
 
