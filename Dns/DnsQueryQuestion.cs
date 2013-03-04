@@ -10,6 +10,8 @@ namespace Dns
     {
         public DnsName Name { get; private set; }
         public DnsRecordType RecordType { get; private set; }
+        public DnsRecordClass RecordClass { get; set; }
+
         private byte[] Bytes { get; set; }
 
         public DnsQueryQuestion(string name, DnsRecordType recordType)
@@ -19,17 +21,13 @@ namespace Dns
             RecordType = recordType;
         }
 
-        public DnsQueryQuestion(byte[] packetContent, int startingOffset)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DnsQueryQuestion(byte[] packetContent)
+        public DnsQueryQuestion(byte[] packetContent, int startingOffset, int questionLength)
             : this()
         {
-            Name = new DnsName(packetContent.Take(packetContent.Length - 4).ToArray(), packetContent);
-            Bytes = packetContent;
-            RecordType = (DnsRecordType)BitConverter.ToInt16(packetContent.Skip(packetContent.Length - 4).Take(2).Reverse().ToArray(), 0);
+            Name = new DnsName(packetContent, startingOffset);
+            Bytes = null;
+            RecordType = (DnsRecordType)BitConverter.ToInt16(new byte[] { packetContent[startingOffset + questionLength - 3], packetContent[startingOffset + questionLength - 4] }, 0);
+            RecordClass = (DnsRecordClass)BitConverter.ToInt16(new byte[] { packetContent[startingOffset + questionLength - 1], packetContent[startingOffset + questionLength - 2] }, 0);
         }
 
         public byte[] ToByteArray()

@@ -19,7 +19,7 @@ namespace Dns
                 // We have a "pointer"
                 var name = new DnsName(packetContent, twoBytes.Last());
                 var recordType = (DnsRecordType)BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 2).Take(2).Reverse().ToArray(), 0);
-                var recordClass = BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 4).Take(2).Reverse().ToArray(), 0);
+                var recordClass = (DnsRecordClass)BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 4).Take(2).Reverse().ToArray(), 0);
                 var ttl = BitConverter.ToUInt32(packetContent.Skip(startOfAnswer + 6).Take(4).Reverse().ToArray(), 0);
                 var rDataLength = BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 10).Take(2).Reverse().ToArray(), 0);
                 //var rData = packetContent.Skip(startOfAnswer + 12).Take(rDataLength).ToArray();
@@ -33,7 +33,7 @@ namespace Dns
             return answer;
         }
 
-        private IDnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, short recordClass, UInt32 ttl, short recordDataLength, int recordDataOffset, byte[] packetContent)
+        private IDnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, DnsRecordClass recordClass, UInt32 ttl, short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
             var answer = GetDnsQueryAnswer(recordType, recordDataLength, null, packetContent, recordDataOffset);
             answer.Name = name;
@@ -45,19 +45,6 @@ namespace Dns
 
             return answer;
         }
-
-        //public IDnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, short recordClass, UInt32 ttl, short recordDataLength, byte[] recordData, byte[] packetContent)
-        //{
-        //    var answer = GetDnsQueryAnswer(recordType, recordDataLength, recordData, packetContent);
-        //    answer.Name = name;
-        //    answer.RecordType = recordType;
-        //    answer.RecordClass = recordClass;
-        //    answer.Ttl = ttl;
-        //    answer.RecordDataLength = recordDataLength;
-        //    answer.RecordData = recordData;
-
-        //    return answer;
-        //}
 
         private IDnsQueryAnswer GetDnsQueryAnswer(DnsRecordType recordType, short recordDataLength, byte[] recordData, byte[] packetContent, int recordDataOffset)
         {

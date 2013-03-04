@@ -74,54 +74,6 @@ namespace Dns
             Bytes = packetContent;
         }
 
-        public DnsName(byte[] hostContent, byte[] packetContent)
-            : this()
-        {
-            var host = new StringBuilder();
-            var i = 1;
-            var numberOfCharacters = Convert.ToInt32(hostContent[0]);
-            while (hostContent[i] != 0 && i < hostContent.Length - 1)
-            {
-                var twoBytes = hostContent.Skip(i).Take(2);
-                var twoBytesAsBits = new BitArray(twoBytes.Reverse().ToArray());
-
-                if (twoBytesAsBits[14] && twoBytesAsBits[15])
-                {
-                    // We have a "pointer"
-                    var name = new DnsName(packetContent, twoBytes.Last());
-                    if (host.Length != 0)
-                    {
-                        host.Append(".");
-                    }
-                    host.Append(name);
-                    break;
-                }
-                else
-                {
-                    if (numberOfCharacters > 0)
-                    {
-                        host.Append(Convert.ToChar(hostContent[i]));
-                        numberOfCharacters--;
-                    }
-                    else
-                    {
-                        if (hostContent[i] == 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            host.Append(".");
-                            numberOfCharacters = Convert.ToInt32(hostContent[i]);
-                        }
-                    }
-                    i++;
-                }
-            }
-            Host = host.ToString();
-            Bytes = hostContent;
-        }
-
         public byte[] ToByteArray()
         {
             if (Bytes == null)

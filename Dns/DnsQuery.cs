@@ -36,20 +36,16 @@ namespace Dns
             Questions = questions;
 
             var answers = new List<IDnsQueryAnswer>();
+            var dnsQueryAnswerFactory = new DnsQueryAnswerFactory();
             var startOfAnswer = startOfQuestion - 1;
             for (int i = 0; i < Header.AnswerCount; i++)
             {
-                var answer = ExtractAnswer(packetContent, ref startOfAnswer);
+                var answer = dnsQueryAnswerFactory.GetDnsQueryAnswer(packetContent, ref startOfAnswer);
                 answers.Add(answer);
             }
             Answers = answers;
         }
 
-        private IDnsQueryAnswer ExtractAnswer(byte[] packetContent, ref int startOfAnswer)
-        {
-            IDnsQueryAnswer answer = new DnsQueryAnswerFactory().GetDnsQueryAnswer(packetContent, ref startOfAnswer);
-            return answer;
-        }
 
         private DnsQueryQuestion ExtractQuestion(byte[] packetContent, ref int startOfQuestion)
         {
@@ -60,7 +56,7 @@ namespace Dns
                 if (packetContent[i] == 0)
                 {
                     var endOfQuestion = i + 5;
-                    question = new DnsQueryQuestion(packetContent.Skip(startOfQuestion).Take(endOfQuestion - startOfQuestion).ToArray());
+                    question = new DnsQueryQuestion(packetContent, startOfQuestion, (i + 5) - startOfQuestion);
                     startOfQuestion = endOfQuestion + 1;
                     break;
                 }

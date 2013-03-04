@@ -54,6 +54,7 @@
     <Compile Include="DnsQueryResponseCode.cs" />
     <Compile Include="DnsQueryType.cs" />
     <Compile Include="DnsQueryQuestion.cs" />
+    <Compile Include="DnsRecordClass.cs" />
     <Compile Include="DnsRecordType.cs" />
     <Compile Include="DnsService.cs" />
     <Compile Include="IDnsService.cs" />

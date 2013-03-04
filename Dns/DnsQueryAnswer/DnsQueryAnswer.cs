@@ -10,7 +10,7 @@ namespace Dns
     {
         public DnsName Name { get; set; }
         public DnsRecordType RecordType { get; set; }
-        public short RecordClass { get; set; }
+        public DnsRecordClass RecordClass { get; set; }
         public UInt32 Ttl { get; set; }
         public short RecordDataLength { get; set; }
         public byte[] RecordData { get; set; }
