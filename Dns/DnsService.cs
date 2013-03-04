@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Dns
 {
-    public class DnsServices
+    public class DnsService : IDnsService
     {
         private int transactionId = 0;
         private List<IPAddress> dnsServers;
 
-        public DnsServices()
+        public DnsService()
         {
             dnsServers = GetDnsServers();
             NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;

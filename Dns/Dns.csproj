@@ -56,6 +56,7 @@
     <Compile Include="DnsQueryQuestion.cs" />
     <Compile Include="DnsRecordType.cs" />
     <Compile Include="DnsService.cs" />
+    <Compile Include="IDnsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

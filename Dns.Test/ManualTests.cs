@@ -9,14 +9,14 @@ using System.Collections;
 namespace Dns.Test
 {
     [TestFixture]
-    public class Class1
+    public class ManualTests
     {
         [Test]
-        public void hell()
+        public void Query_Google_Co_Uk_For_NS_Records()
         {
-            var d = new DnsServices();
+            var dnsService = new DnsService();
             
-            var queryResult = d.GetDnsEntries("google.co.uk", DnsRecordType.NS);
+            var queryResult = dnsService.GetDnsEntries("google.co.uk", DnsRecordType.NS);
         }
     }
 }
