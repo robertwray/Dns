@@ -17,14 +17,6 @@ namespace Dns.Test
             var d = new DnsServices();
             
             var queryResult = d.GetDnsEntries("google.co.uk", DnsRecordType.NS);
-
-        }
-        [Test]
-        public void fneh2()
-        {
-            BitArray f = new BitArray(new bool[] { true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false });
-            byte[] g = new Byte[3];
-            f.CopyTo(g, 0);
         }
     }
 }

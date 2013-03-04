@@ -8,7 +8,7 @@ namespace Dns
 {
     public sealed class DnsQueryAnswerFactory
     {
-        public DnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, short recordClass, UInt32 ttl, short recordDataLength, byte[] recordData, byte[] packetContent)
+        public IDnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, short recordClass, UInt32 ttl, short recordDataLength, byte[] recordData, byte[] packetContent)
         {
             var answer = GetDnsQueryAnswer(recordType, recordDataLength, recordData, packetContent);
             answer.Name = name;
@@ -21,7 +21,7 @@ namespace Dns
             return answer;
         }
 
-        private DnsQueryAnswer GetDnsQueryAnswer(DnsRecordType recordType, short recordDataLength, byte[] recordData, byte[] packetContent)
+        private IDnsQueryAnswer GetDnsQueryAnswer(DnsRecordType recordType, short recordDataLength, byte[] recordData, byte[] packetContent)
         {
             switch (recordType)
             {

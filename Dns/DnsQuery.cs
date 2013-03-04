@@ -11,7 +11,7 @@ namespace Dns
     {
         public DnsQueryHeader Header { get; set; }
         public IEnumerable<DnsQueryQuestion> Questions { get; private set; }
-        public IEnumerable<DnsQueryAnswer> Answers { get; private set; }
+        public IEnumerable<IDnsQueryAnswer> Answers { get; private set; }
         public DnsQuery(int transactionId, string hostname, DnsRecordType recordType)
         {
             Header = new DnsQueryHeader(transactionId, 1, DnsQueryType.Query, true);
@@ -33,7 +33,7 @@ namespace Dns
             }
             Questions = questions;
 
-            var answers = new List<DnsQueryAnswer>();
+            var answers = new List<IDnsQueryAnswer>();
             var startOfAnswer = startOfQuestion - 1;
             for (int i = 0; i < Header.AnswerCount; i++)
             {
@@ -43,9 +43,9 @@ namespace Dns
             Answers = answers;
         }
 
-        private DnsQueryAnswer ExtractAnswer(byte[] packetContent, ref int startOfAnswer)
+        private IDnsQueryAnswer ExtractAnswer(byte[] packetContent, ref int startOfAnswer)
         {
-            DnsQueryAnswer answer = null;
+            IDnsQueryAnswer answer = null;
             var twoBytes = packetContent.Skip(startOfAnswer).Take(2);
             var twoBytesAsBits = new BitArray(twoBytes.Reverse().ToArray());
             if (twoBytesAsBits[14] && twoBytesAsBits[15])

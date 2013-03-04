@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dns
 {
-    public abstract class DnsQueryAnswer
+    public abstract class DnsQueryAnswer : IDnsQueryAnswer
     {
         public DnsName Name { get; set; }
         public DnsRecordType RecordType { get; set; }

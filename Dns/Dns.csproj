@@ -47,7 +47,9 @@
     <Compile Include="DnsQueryAnswer\DnsQueryAnswerGeneric.cs" />
     <Compile Include="DnsQueryAnswer\DnsQueryAnswerMx.cs" />
     <Compile Include="DnsQueryAnswer\DnsQueryAnswerNS.cs" />
+    <Compile Include="DnsQueryAnswer\DnsQueryAnswerSRV.cs" />
     <Compile Include="DnsQueryAnswer\DnsQueryCName.cs" />
+    <Compile Include="DnsQueryAnswer\IDnsQueryAnswer.cs" />
     <Compile Include="DnsQueryHeader.cs" />
     <Compile Include="DnsQueryResponseCode.cs" />
     <Compile Include="DnsQueryType.cs" />
