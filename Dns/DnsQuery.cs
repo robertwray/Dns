@@ -50,7 +50,7 @@ namespace Dns
         }
 
 
-        private DnsQueryQuestion ExtractQuestion(DnsNameParser parser, byte[] packetContent, ref int startOfQuestion)
+        private DnsQueryQuestion ExtractQuestion(IDnsNameParser parser, byte[] packetContent, ref int startOfQuestion)
         {
             DnsQueryQuestion? question = null;
             for (int i = startOfQuestion; i < packetContent.Length; i++)

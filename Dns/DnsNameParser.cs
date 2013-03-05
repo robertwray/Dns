@@ -13,7 +13,7 @@ namespace Dns
     /// Reduces the number of times, potentially, that a given packet needs to be parsed to extract a DnsName where
     /// there are "pointer" references to previous names in the packet
     /// </remarks>
-    public sealed class DnsNameParser
+    public sealed class DnsNameParser : IDnsNameParser
     {
         public byte[] PacketContent { get; private set; }
         public Dictionary<int, DnsName> Names { get; private set; }

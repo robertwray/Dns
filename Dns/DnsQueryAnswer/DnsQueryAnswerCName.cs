@@ -10,9 +10,9 @@ namespace Dns
     {
         public DnsName CName { get; set; }
 
-        public DnsQueryAnswerCName(DnsNameParser parser, short recordDataLength, int recordDataOffset, byte[] packetContent)
+        public DnsQueryAnswerCName(IDnsNameParser parser, short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
-            CName = new DnsName(parser, packetContent, recordDataOffset);
+            CName = parser.GetNameAtOffset(recordDataOffset);
         }
     }
 }

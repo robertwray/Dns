@@ -28,7 +28,7 @@ namespace Dns
         /// </summary>
         /// <param name="packetContent"></param>
         /// <param name="startingOffset">The starting offset of the name, the value of the length of the first name part</param>
-        public DnsName(DnsNameParser parser, byte[] packetContent, int startingOffset)
+        public DnsName(IDnsNameParser parser, byte[] packetContent, int startingOffset)
             : this()
         {
             var host = new StringBuilder();
