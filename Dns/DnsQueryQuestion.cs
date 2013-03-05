@@ -21,10 +21,10 @@ namespace Dns
             RecordType = recordType;
         }
 
-        public DnsQueryQuestion(byte[] packetContent, int startingOffset, int questionLength)
+        public DnsQueryQuestion(DnsNameParser parser, byte[] packetContent, int startingOffset, int questionLength)
             : this()
         {
-            Name = new DnsName(packetContent, startingOffset);
+            Name = new DnsName(parser, packetContent, startingOffset);
             Bytes = null;
             RecordType = (DnsRecordType)BitConverter.ToInt16(new byte[] { packetContent[startingOffset + questionLength - 3], packetContent[startingOffset + questionLength - 4] }, 0);
             RecordClass = (DnsRecordClass)BitConverter.ToInt16(new byte[] { packetContent[startingOffset + questionLength - 1], packetContent[startingOffset + questionLength - 2] }, 0);

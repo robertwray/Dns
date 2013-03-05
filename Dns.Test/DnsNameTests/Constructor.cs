@@ -24,14 +24,16 @@ namespace Dns.Test.DnsNameTests
         [Test]
         public void Extracts_Name_Correctly_From_Well_Formed_Question_In_Dns_Response()
         {
-            var result = new DnsName(ultraasp_dot_net_A_Record, 12);
+            var parser = new DnsNameParser(ultraasp_dot_net_A_Record);
+            var result = new DnsName(parser, ultraasp_dot_net_A_Record , 12);
             Assert.That(result.Host, Is.EqualTo("ultraasp.net"));
         }
 
         [Test]
         public void Extract_Name_Correctly_From_Well_Formed_Question_In_Dns_Response()
         {
-            var result = new DnsName(test_dot_cocktail_dot_local_A_Record, 12);
+            var parser = new DnsNameParser(test_dot_cocktail_dot_local_A_Record);
+            var result = new DnsName(parser ,test_dot_cocktail_dot_local_A_Record, 12);
             Assert.That(result.Host, Is.EqualTo("test.cocktail.local"));
         }
 
@@ -42,8 +44,8 @@ namespace Dns.Test.DnsNameTests
         [Test]
         public void Extract_Name_Correctly_From_Well_Formed_Answer_In_Dns_Response_That_Involves_Lookback()
         {
-            //var result2 = new DnsQuery(test_dot_cocktail_dot_local_A_Record);
-            var result = new DnsName(test_dot_cocktail_dot_local_A_Record, 49);
+            var parser = new DnsNameParser(test_dot_cocktail_dot_local_A_Record);
+            var result = new DnsName(parser, test_dot_cocktail_dot_local_A_Record, 49);
             Assert.That(result.Host, Is.EqualTo("voip-1.cocktail.local"));
         }
     }

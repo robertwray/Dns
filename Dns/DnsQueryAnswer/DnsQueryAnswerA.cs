@@ -10,7 +10,7 @@ namespace Dns
     public sealed class DnsQueryAnswerA : DnsQueryAnswer
     {
         public IPAddress IPAddress { get; set; }
-        public DnsQueryAnswerA(short recordDataLength, int recordDataOffset, byte[] packetContent)
+        public DnsQueryAnswerA(DnsNameParser parser, short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
             IPAddress = new IPAddress(packetContent.Skip(recordDataOffset).Take(recordDataLength).ToArray());
         }

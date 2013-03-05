@@ -9,7 +9,7 @@ namespace Dns
 {
     public sealed class DnsQueryAnswerFactory
     {
-        public IDnsQueryAnswer GetDnsQueryAnswer(byte[] packetContent, ref int startOfAnswer)
+        public IDnsQueryAnswer GetDnsQueryAnswer(DnsNameParser parser, byte[] packetContent, ref int startOfAnswer)
         {
             IDnsQueryAnswer answer = null;
             var twoBytes = packetContent.Skip(startOfAnswer).Take(2);
@@ -17,7 +17,7 @@ namespace Dns
             if (twoBytesAsBits[14] && twoBytesAsBits[15])
             {
                 // We have a "pointer"
-                var name = new DnsName(packetContent, twoBytes.Last());
+                var name = new DnsName(parser, packetContent, twoBytes.Last());
                 var recordType = (DnsRecordType)BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 2).Take(2).Reverse().ToArray(), 0);
                 var recordClass = (DnsRecordClass)BitConverter.ToInt16(packetContent.Skip(startOfAnswer + 4).Take(2).Reverse().ToArray(), 0);
                 var ttl = BitConverter.ToUInt32(packetContent.Skip(startOfAnswer + 6).Take(4).Reverse().ToArray(), 0);
@@ -26,16 +26,16 @@ namespace Dns
 
                 var recordDataOffset = startOfAnswer + 12;
 
-                answer = GetDnsQueryAnswer(name, recordType, recordClass, ttl, rDataLength, recordDataOffset, packetContent);
+                answer = GetDnsQueryAnswer(parser, name, recordType, recordClass, ttl, rDataLength, recordDataOffset, packetContent);
 
                 startOfAnswer = startOfAnswer + 12 + rDataLength;
             }
             return answer;
         }
 
-        private IDnsQueryAnswer GetDnsQueryAnswer(DnsName name, DnsRecordType recordType, DnsRecordClass recordClass, UInt32 ttl, short recordDataLength, int recordDataOffset, byte[] packetContent)
+        private IDnsQueryAnswer GetDnsQueryAnswer(DnsNameParser parser, DnsName name, DnsRecordType recordType, DnsRecordClass recordClass, UInt32 ttl, short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
-            var answer = GetDnsQueryAnswer(recordType, recordDataLength, null, packetContent, recordDataOffset);
+            var answer = GetDnsQueryAnswer(parser, recordType, recordDataLength, null, packetContent, recordDataOffset);
             answer.Name = name;
             answer.RecordType = recordType;
             answer.RecordClass = recordClass;
@@ -46,18 +46,18 @@ namespace Dns
             return answer;
         }
 
-        private IDnsQueryAnswer GetDnsQueryAnswer(DnsRecordType recordType, short recordDataLength, byte[] recordData, byte[] packetContent, int recordDataOffset)
+        private IDnsQueryAnswer GetDnsQueryAnswer(DnsNameParser parser, DnsRecordType recordType, short recordDataLength, byte[] recordData, byte[] packetContent, int recordDataOffset)
         {
             switch (recordType)
             {
                 case DnsRecordType.A:
-                    return new DnsQueryAnswerA(recordDataLength, recordDataOffset, packetContent);
+                    return new DnsQueryAnswerA(parser, recordDataLength, recordDataOffset, packetContent);
                 case DnsRecordType.CNAME:
-                    return new DnsQueryAnswerCName(recordDataLength, recordDataOffset, packetContent);
+                    return new DnsQueryAnswerCName(parser, recordDataLength, recordDataOffset, packetContent);
                 case DnsRecordType.MX:
-                    return new DnsQueryAnswerMx(recordDataLength, recordDataOffset, packetContent);
+                    return new DnsQueryAnswerMx(parser, recordDataLength, recordDataOffset, packetContent);
                 case DnsRecordType.NS:
-                    return new DnsQueryAnswerNS(recordDataLength, recordDataOffset, packetContent);
+                    return new DnsQueryAnswerNS(parser, recordDataLength, recordDataOffset, packetContent);
                 case DnsRecordType.AAAA:
                 case DnsRecordType.SRV:
                 default:

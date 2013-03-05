@@ -9,9 +9,9 @@ namespace Dns
     public sealed class DnsQueryAnswerNS : DnsQueryAnswer
     {
         public DnsName NsName { get; set; }
-        public DnsQueryAnswerNS(short recordDataLength, int recordDataOffset, byte[] packetContent)
+        public DnsQueryAnswerNS(DnsNameParser parser, short recordDataLength, int recordDataOffset, byte[] packetContent)
         {
-            NsName = new DnsName(packetContent, recordDataOffset);
+            NsName = new DnsName(parser, packetContent, recordDataOffset);
         }
 
         public override string ToString()

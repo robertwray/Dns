@@ -25,14 +25,15 @@ namespace Dns
         public DnsQuery(byte[] packetContent)
         {
             PacketContent = packetContent;
+            var parser = new DnsNameParser(packetContent);
             Header = new DnsQueryHeader(packetContent);
-
+            
             var questions = new List<DnsQueryQuestion>();
 
             var startOfQuestion = 12;
             for (int i = 0; i < Header.QuestionCount; i++)
             {
-                var question = ExtractQuestion(packetContent, ref startOfQuestion);
+                var question = ExtractQuestion(parser, packetContent, ref startOfQuestion);
                 questions.Add(question);
             }
             Questions = questions;
@@ -42,14 +43,14 @@ namespace Dns
             var startOfAnswer = startOfQuestion - 1;
             for (int i = 0; i < Header.AnswerCount; i++)
             {
-                var answer = dnsQueryAnswerFactory.GetDnsQueryAnswer(packetContent, ref startOfAnswer);
+                var answer = dnsQueryAnswerFactory.GetDnsQueryAnswer(parser, packetContent, ref startOfAnswer);
                 answers.Add(answer);
             }
             Answers = answers;
         }
 
 
-        private DnsQueryQuestion ExtractQuestion(byte[] packetContent, ref int startOfQuestion)
+        private DnsQueryQuestion ExtractQuestion(DnsNameParser parser, byte[] packetContent, ref int startOfQuestion)
         {
             DnsQueryQuestion? question = null;
             for (int i = startOfQuestion; i < packetContent.Length; i++)
@@ -58,7 +59,7 @@ namespace Dns
                 if (packetContent[i] == 0)
                 {
                     var endOfQuestion = i + 5;
-                    question = new DnsQueryQuestion(packetContent, startOfQuestion, (i + 5) - startOfQuestion);
+                    question = new DnsQueryQuestion(parser, packetContent, startOfQuestion, (i + 5) - startOfQuestion);
                     startOfQuestion = endOfQuestion + 1;
                     break;
                 }

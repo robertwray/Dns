@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DnsName.cs" />
+    <Compile Include="DnsNameParser.cs" />
     <Compile Include="DnsQuery.cs" />
     <Compile Include="DnsQueryAnswer\DnsQueryAnswer.cs" />
     <Compile Include="DnsQueryAnswerFactory.cs" />

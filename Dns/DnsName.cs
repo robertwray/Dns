@@ -22,12 +22,13 @@ namespace Dns
         {
             return Host;
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="packetContent"></param>
         /// <param name="startingOffset">The starting offset of the name, the value of the length of the first name part</param>
-        public DnsName(byte[] packetContent, int startingOffset)
+        public DnsName(DnsNameParser parser, byte[] packetContent, int startingOffset)
             : this()
         {
             var host = new StringBuilder();
@@ -36,13 +37,13 @@ namespace Dns
             while (packetContent[i] != 0 && i < packetContent.Length - 1)
             {
                 var twoBytes = packetContent.Skip(i).Take(2);
-                
+
                 var twoBytesAsBits = new BitArray(twoBytes.Reverse().ToArray());
 
                 if (twoBytesAsBits[14] && twoBytesAsBits[15])
                 {
                     // We have a "pointer"
-                    var name = new DnsName(packetContent, twoBytes.Last());
+                    var name = parser.GetNameAtOffset(twoBytes.Last());
                     if (host.Length != 0)
                     {
                         host.Append(".");
