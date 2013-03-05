@@ -44,7 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DnsNameTests\Constructor.cs" />
+    <Compile Include="DnsNameTests\ToByteArray.cs" />
     <Compile Include="DnsQueryAnswerTests\Constructor.cs" />
+    <Compile Include="DnsQueryHeaderTests\Constructor.cs" />
+    <Compile Include="DnsQueryHeaderTests\Constructor_ByteArray.cs" />
+    <Compile Include="DnsQueryTests\Constructor.cs" />
     <Compile Include="ManualTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,9 +58,7 @@
       <Name>Dns</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DnsQueryTests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

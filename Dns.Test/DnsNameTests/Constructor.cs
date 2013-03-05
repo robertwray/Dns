@@ -14,6 +14,14 @@ namespace Dns.Test.DnsNameTests
         private readonly static byte[] test_dot_cocktail_dot_local_A_Record = new byte[] { 0, 0, 133, 128, 0, 1, 0, 2, 0, 0, 0, 0, 4, 116, 101, 115, 116, 8, 99, 111, 99, 107, 116, 97, 105, 108, 5, 108, 111, 99, 97, 108, 0, 0, 1, 0, 1, 192, 12, 0, 5, 0, 1, 0, 0, 14, 16, 0, 9, 6, 118, 111, 105, 112, 45, 49, 192, 17, 192, 49, 0, 1, 0, 1, 0, 0, 14, 16, 0, 4, 10, 1, 1, 231 };
 
         [Test]
+        public void Sets_Host_Property_Correctly()
+        {
+            var result = new DnsName("test.local");
+
+            Assert.That(result.Host, Is.EqualTo("test.local"));
+        }
+
+        [Test]
         public void Extracts_Name_Correctly_From_Well_Formed_Question_In_Dns_Response()
         {
             var result = new DnsName(ultraasp_dot_net_A_Record, 12);
@@ -27,11 +35,15 @@ namespace Dns.Test.DnsNameTests
             Assert.That(result.Host, Is.EqualTo("test.cocktail.local"));
         }
 
+        /// <summary>
+        /// Scenario: A name is extracted from an answer, where part of the name is obtained by "look back" to a previous name in the packet
+        /// Expected: The name is extracted fully and correctly
+        /// </summary>
         [Test]
-        public void Extract_Name_Correctly_From_Well_Formed_Answer_In_Dns_Response()
+        public void Extract_Name_Correctly_From_Well_Formed_Answer_In_Dns_Response_That_Involves_Lookback()
         {
-            var result2 = new DnsQuery(test_dot_cocktail_dot_local_A_Record);
-            var result = new DnsName(test_dot_cocktail_dot_local_A_Record, 15);
+            //var result2 = new DnsQuery(test_dot_cocktail_dot_local_A_Record);
+            var result = new DnsName(test_dot_cocktail_dot_local_A_Record, 49);
             Assert.That(result.Host, Is.EqualTo("voip-1.cocktail.local"));
         }
     }

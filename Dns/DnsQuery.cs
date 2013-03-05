@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dns
 {
+    /// <summary>
+    /// Describes a query request to, or response from, a DNS server
+    /// </summary>
     public sealed class DnsQuery
     {
         public byte[] PacketContent { get; private set; }
@@ -22,8 +25,7 @@ namespace Dns
         public DnsQuery(byte[] packetContent)
         {
             PacketContent = packetContent;
-            var headerBytes = packetContent.Take(12).ToArray();
-            Header = new DnsQueryHeader(headerBytes);
+            Header = new DnsQueryHeader(packetContent);
 
             var questions = new List<DnsQueryQuestion>();
 
@@ -52,7 +54,7 @@ namespace Dns
             DnsQueryQuestion? question = null;
             for (int i = startOfQuestion; i < packetContent.Length; i++)
             {
-                // We've found the null that terminates the 
+                // We've found the null that terminates
                 if (packetContent[i] == 0)
                 {
                     var endOfQuestion = i + 5;

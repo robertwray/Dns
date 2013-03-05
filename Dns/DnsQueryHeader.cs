@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dns
 {
+    /// <summary>
+    /// Describes the header of a DnsQuery
+    /// </summary>
     public struct DnsQueryHeader
     {
         public int TransactionId { get; private set; }
@@ -25,6 +28,13 @@ namespace Dns
 
         private byte[] Bytes { get; set; }
 
+        /// <summary>
+        /// Construct a DnsQuery for transmission to a DNS Server
+        /// </summary>
+        /// <param name="transactionId">The Id of the transaction with the server</param>
+        /// <param name="questionCount">The number of questions being asked in this query</param>
+        /// <param name="queryType">The type of query being performed</param>
+        /// <param name="recursionDesired">Is recursion desired?</param>
         public DnsQueryHeader(int transactionId, int questionCount, DnsQueryType queryType, bool recursionDesired)
             : this()
         {
@@ -34,6 +44,10 @@ namespace Dns
             RecursionDesired = recursionDesired;
         }
 
+        /// <summary>
+        /// Constructs a DnsQuery from its byte representation, usually as a result of receiving a response from a DNS server
+        /// </summary>
+        /// <param name="packetContents">The bytes that make up the response</param>
         public DnsQueryHeader(byte[] packetContents)
             : this()
         {
