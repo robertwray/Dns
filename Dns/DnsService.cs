@@ -40,15 +40,20 @@ namespace Dns
 
         public DnsQuery GetDnsEntries(string host, DnsRecordType recordType)
         {
+            return GetDnsEntries(host, DnsServers.First().ToString(), recordType);
+        }
+
+        public DnsQuery GetDnsEntries(string host, string server, DnsRecordType recordType)
+        {
             using (var client = new UdpClient())
             {
-                IPEndPoint RemoteIpEndPoint = new IPEndPoint(DnsServers.First(), 53);
+                IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(server), 53);
                 client.Connect(RemoteIpEndPoint);
                 var query = new DnsQuery(transactionId, host, recordType);
                 transactionId++;
                 var bytes = query.ToByteArray();
                 client.Send(bytes, bytes.Length);
-             
+
                 // Get response
                 Byte[] receiveBytes = client.Receive(ref RemoteIpEndPoint);
 

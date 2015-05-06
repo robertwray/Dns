@@ -75,5 +75,9 @@ namespace Dns
 
             return result.ToArray();
         }
+        public override string ToString()
+        {
+            return this.Answers != null ? this.Answers.Count().ToString() : "0";
+        }
     }
 }
