@@ -1,76 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F8291BA4-4FB4-428D-B193-0982133C50F3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dns</RootNamespace>
-    <AssemblyName>Dns</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Company>Robert Wray</Company>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DnsName.cs" />
-    <Compile Include="DnsNameParser.cs" />
-    <Compile Include="DnsQuery.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswer.cs" />
-    <Compile Include="DnsQueryAnswerFactory.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerA.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerGeneric.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerMx.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerNS.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerSRV.cs" />
-    <Compile Include="DnsQueryAnswer\DnsQueryAnswerCName.cs" />
-    <Compile Include="DnsQueryAnswer\IDnsQueryAnswer.cs" />
-    <Compile Include="DnsQueryHeader.cs" />
-    <Compile Include="DnsQueryResponseCode.cs" />
-    <Compile Include="DnsQueryType.cs" />
-    <Compile Include="DnsQueryQuestion.cs" />
-    <Compile Include="DnsRecordClass.cs" />
-    <Compile Include="DnsRecordType.cs" />
-    <Compile Include="DnsService.cs" />
-    <Compile Include="IDnsNameParser.cs" />
-    <Compile Include="IDnsService.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
